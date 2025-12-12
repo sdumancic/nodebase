@@ -1,10 +1,15 @@
 import { inngest } from '@/inngest/client';
 import { createTRPCRouter, protectedProcedure } from '../init';
 import prisma from '@/lib/database';
+import { TRPCError } from '@trpc/server';
 
 export const appRouter = createTRPCRouter({
     testAI: protectedProcedure
         .mutation(async ({ ctx }) => {
+            throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: "AI sent"
+            })
             await inngest.send({
                 name: "execute/ai",
             });
